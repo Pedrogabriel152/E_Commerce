@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('product')->nullable(false);
             $table->float('price', 10, 2)->nullable(false);
-            $table->int('amount')->default(0);
+            $table->integer('amount')->default(0);
             $table->string('description')->nullable();
             $table->string('image')->nullable(false);
             $table->foreignId('available_by_id')->constrained('users')->onDelete('cascade');
