@@ -19,4 +19,9 @@ class PermissionRepository
             return $permission;
         });
     }
+
+    public function getPermission(int $id) {
+        $permission = Permission::find($id);
+        return $permission;
+    }
 }

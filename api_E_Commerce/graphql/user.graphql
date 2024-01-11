@@ -1,48 +1,48 @@
 "Account of a person who utilizes this application."
 type User {
-  "Unique primary key."
-  id: ID!
+    "Unique primary key."
+    id: ID!
 
-  "Non-unique name."
-  name: String!
+    "Non-unique name."
+    name: String!
 
-  "Unique email address."
-  email: String!
+    "Unique email address."
+    email: String!
 
-  phone: String!
+    phone: String!
 
-  address: String!
+    address: String!
 
-  permission: Permission! @hasOne
+    permission: Permission! @hasOne
 
-  "When the email was verified."
-  email_verified_at: DateTime
+    "When the email was verified."
+    email_verified_at: DateTime
 
-  "When the account was created."
-  created_at: DateTime!
+    "When the account was created."
+    created_at: DateTime!
 
-  "When the account was last updated."
-  updated_at: DateTime!
+    "When the account was last updated."
+    updated_at: DateTime!
 }
 
 input UserInput {
-  "Non-unique name."
-  name: String!
+    "Non-unique name."
+    name: String!
 
-  "Unique email address."
-  email: String!
+    "Unique email address."
+    email: String!
 
-  image: Upload
+    phone: String!
 
-  cover_image: Upload
+    address: String!
 
-  password: String
+    permission_id: Permission!
 }
 
 type ResponseUser implements Response {
-  code: Int!
-  message: String!
-  user: User
+    code: Int!
+    message: String!
+    user: User
 }
 
 # extend type Query {
