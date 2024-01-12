@@ -1,0 +1,29 @@
+type Product {
+    id: ID!
+    product: String!
+    price: Float!
+    amount: Int!
+    description: String!
+    image: String!
+    available_by_id: Int!
+    user: User @belongsTo
+}
+
+type ResponseProduct implements Response {
+    code: Int!
+    message: String!
+    product: Product
+}
+
+input ProductInput {
+    product: String!
+    amount: Int!
+    description: String!
+    image: String
+    price: Float!
+    available_by_id: Int!
+}
+
+extend type Mutation @guard {
+    createProduct(product: ProductInput!): ResponseProduct! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@create")
+}

@@ -14,10 +14,11 @@ type ResponsePermission implements Response {
     message: String!
 }
 
-extend type Query {
-    type(id: ID!): Permission @find
+extend type Query @guard {
+    permission(id: ID! @eq @rules(apply: ["prohibits:email", "required_without:email"])): Permission @find
+    permissions: [Permission]! @paginate(defaultCount: 10) 
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     createPermission(permission: PermissionInput!): ResponsePermission! @field(resolver: "App\\GraphQL\\Mutations\\PermissionMutation@create")
 }

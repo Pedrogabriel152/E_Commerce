@@ -10,3 +10,4 @@ interface Response {
 
 #import permission.graphql
 #import user.graphql
+#import product.graphql

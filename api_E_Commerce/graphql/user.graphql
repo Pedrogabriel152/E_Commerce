@@ -36,7 +36,7 @@ input UserInput {
 
     address: String!
 
-    permission_id: Permission!
+    permission_id: Int!
 }
 
 type ResponseUser implements Response {
@@ -45,24 +45,23 @@ type ResponseUser implements Response {
     user: User
 }
 
-# extend type Query {
-#   "Find a single user by an identifying attribute."
-#   user(
-#     "Search by primary key."
-#     id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
+extend type Query @guard {
+    "Find a single user by an identifying attribute."
+    user(
+        "Search by primary key."
+        id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
 
-#     "Search by email address."
-#     email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
-#   ): User @find
+        "Search by email address."
+        email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
+    ): User @find
 
-#   # users(name: String!): [User]! @field(resolver: "App\\GraphQL\\Queries\\UserQuery@getUser")
+    # users(name: String!): [User]! @field(resolver: "App\\GraphQL\\Queries\\UserQuery@getUser")
 
-#   # "List multiple users."
-#   users(
-#     "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
-#     where: _ @whereConditions(columns: ["name"])
-#   ): [User]! @paginate(defaultCount: 10) 
-# }
+    # # "List multiple users."
+    # users(
+    #     where: _ @whereConditions(columns: ["name"])
+    # ): [User]! @paginate(defaultCount: 10) 
+}
 
 # extend type Mutation @guard {
 #   editUser(user: UserInput!): ResponseUser! @field(resolver: "App\\GraphQL\\Mutations\\UserMutation@update")

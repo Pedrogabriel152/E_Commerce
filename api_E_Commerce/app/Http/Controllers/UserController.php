@@ -16,7 +16,6 @@ class UserController extends Controller
 
     private UserRepository $userRepository_;
     private PermissionRepository $permissionRepository_;
-    private $jwt;
     private array $requiredFileds_ = ['name', 'email', 'cpf', 'phone', 'address', 'permission_id', 'password'];
 
     public function __construct()
@@ -27,7 +26,7 @@ class UserController extends Controller
 
     public function register(Request $request) {
         try {
-            VerificationService::verifyFields($request, $this->requiredFileds_);
+            VerificationService::verifyFields($this->requiredFileds_, $request);
 
             $permission = $this->permissionRepository_->getPermission($request->permission_id);
 
@@ -59,7 +58,7 @@ class UserController extends Controller
 
     public function login(Request $request){
         try {
-            VerificationService::verifyFields($request, ['email', 'password']);
+            VerificationService::verifyFields(['email', 'password'], $request);
 
             $userExist = $this->userRepository_->getUserByEmail($request->email);
 
