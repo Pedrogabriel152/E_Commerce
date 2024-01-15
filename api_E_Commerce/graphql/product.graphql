@@ -24,6 +24,16 @@ input ProductInput {
     available_by_id: Int!
 }
 
+extend type Query @guard {
+    "Find a single user by an identifying attribute."
+    product(id: ID! @eq @rules(apply: ["int"])): Product @find
+
+    products(where: _ @whereConditions(columns: ["product"]),
+        orderBy: _ @orderBy(columns: ["created_at"])
+    ): [Product]! @paginate(defaultCount: 10)
+}
+
 extend type Mutation @guard {
     createProduct(product: ProductInput!): ResponseProduct! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@create")
+    updateProduct(product: ProductInput!): ResponseProduct @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@update")
 }

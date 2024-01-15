@@ -7,17 +7,17 @@ use App\Repositories\PermissionRepository;
 
 class PermissionService 
 {
-    private $permissionRepository;
+    private $permissionRepository_;
 
     public function __construct() {
-        $this->permissionRepository = new PermissionRepository();
+        $this->permissionRepository_ = new PermissionRepository();
     }
 
     public function create(string $description){
         try {
             if(!$description) throw new ErrorException('A descrição da permição é obrigatória', 402);
 
-            $permission = $this->permissionRepository->save($description);
+            $permission = $this->permissionRepository_->save($description);
 
             if(!$permission) throw new ErrorException('Ocorreu um erro, tente novamente', 500);
 

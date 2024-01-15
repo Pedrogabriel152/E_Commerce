@@ -24,4 +24,9 @@ class ProductMutation
         $response = $this->productService_->create($args['product']);
         return $response;
     }
+
+    public function update($_, array $args) {
+        $response = $this->productService_->update($args['product']);
+        return $response;
+    }
 }
