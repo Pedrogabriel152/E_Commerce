@@ -48,6 +48,6 @@ class User extends Authenticatable
     ];
 
     public function permission() {
-        return $this->hasOne(Permission::class, 'permission_id');
+        return $this->hasOne(Permission::class, 'id', 'permission_id');
     }
 }

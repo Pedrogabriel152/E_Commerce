@@ -21,6 +21,7 @@ class Product extends Model
         'description',
         'image',
         'available_by_id',
+        'active',
     ];
 
     public function user(){

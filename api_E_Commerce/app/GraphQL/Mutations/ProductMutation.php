@@ -26,7 +26,12 @@ class ProductMutation
     }
 
     public function update($_, array $args) {
-        $response = $this->productService_->update($args['product']);
+        $response = $this->productService_->update(intval($args['id']), $args['product']);
+        return $response;
+    }
+
+    public function delete($_, array $args) {
+        $response = $this->productService_->delete(intval($args['id']));
         return $response;
     }
 }

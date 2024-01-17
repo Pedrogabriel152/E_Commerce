@@ -19,9 +19,9 @@ input ProductInput {
     product: String!
     amount: Int!
     description: String!
-    image: String
+    image: Upload
     price: Float!
-    available_by_id: Int!
+    available_by_id: Int
 }
 
 extend type Query @guard {
@@ -35,5 +35,6 @@ extend type Query @guard {
 
 extend type Mutation @guard {
     createProduct(product: ProductInput!): ResponseProduct! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@create")
-    updateProduct(product: ProductInput!): ResponseProduct @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@update")
+    updateProduct(id: ID!, product: ProductInput!): ResponseProduct! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@update")
+    deleteProduct(id: ID!): ResponseProduct! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@delete")
 }

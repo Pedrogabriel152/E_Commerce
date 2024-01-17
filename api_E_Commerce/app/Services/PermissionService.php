@@ -7,7 +7,10 @@ use App\Repositories\PermissionRepository;
 
 class PermissionService 
 {
-    private $permissionRepository_;
+    private PermissionRepository $permissionRepository_;
+    private array $requiredFileds_ = [
+        'description',
+    ];
 
     public function __construct() {
         $this->permissionRepository_ = new PermissionRepository();
@@ -15,7 +18,9 @@ class PermissionService
 
     public function create(string $description){
         try {
-            if(!$description) throw new ErrorException('A descrição da permição é obrigatória', 402);
+            VerificationService::verifyFields($this->requiredFileds_, null, ['description' => $description]);
+
+            VerificationService::verifyPermission('Admin');
 
             $permission = $this->permissionRepository_->save($description);
 
