@@ -6,11 +6,11 @@ use App\Services\PermissionService;
 
 class PermissionMutation
 {
-    private $permissionService;
+    private $permissionService_;
 
     public function __construct()
     {
-        $this->permissionService = new PermissionService();
+        $this->permissionService_ = new PermissionService();
     }
 
     /** @param  array{}  $args */
@@ -21,7 +21,7 @@ class PermissionMutation
 
     public function create($_, array $args)
     {
-        $response = $this->permissionService->create($args['permission']['description']);
+        $response = $this->permissionService_->create($args['permission']['description']);
         return $response;
     }
 }

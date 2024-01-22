@@ -28,7 +28,7 @@ extend type Query @guard {
     "Find a single user by an identifying attribute."
     product(id: ID! @eq @rules(apply: ["int"])): Product @find
 
-    products(where: _ @whereConditions(columns: ["product"]),
+    products(where: _ @whereConditions(columns: ["product", "active"]),
         orderBy: _ @orderBy(columns: ["created_at"])
     ): [Product]! @paginate(defaultCount: 10)
 }
