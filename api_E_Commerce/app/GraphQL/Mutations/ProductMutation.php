@@ -1,17 +1,20 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace App\GraphQL\Mutations;
 
 use App\Services\ProductService;
+use App\Services\ShoppingCartService;
 
 class ProductMutation
 {
 
-    private $productService_;
+    private ProductService $productService_;
+    private ShoppingCartService $shoppingCartService_;
 
     public function __construct()
     {
         $this->productService_ = new ProductService();
+        $this->shoppingCartService_ = new ShoppingCartService();
     }
 
     /** @param  array{}  $args */
@@ -32,6 +35,12 @@ class ProductMutation
 
     public function delete($_, array $args) {
         $response = $this->productService_->delete(intval($args['id']));
+        return $response;
+    }
+
+    public function addToCart($_, array $args) 
+    {
+        $response = $this->shoppingCartService_->addToCart($args);
         return $response;
     }
 }

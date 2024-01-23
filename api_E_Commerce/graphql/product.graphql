@@ -37,4 +37,5 @@ extend type Mutation @guard {
     createProduct(product: ProductInput!): ResponseProduct! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@create")
     updateProduct(id: ID!, product: ProductInput!): ResponseProduct! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@update")
     deleteProduct(id: ID!): ResponseProduct! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@delete")
+    AddToCart(id: ID!, amount: Int!) : ResponseProduct! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@addToCart")
 }
