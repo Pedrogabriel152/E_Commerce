@@ -4,6 +4,7 @@ namespace App\Services;
 
 use ErrorException;
 use App\Models\Product;
+use App\Models\ShoppingCart;
 use App\Repositories\ShoppingCartRepository;
 
 class ShoppingCartService
@@ -25,7 +26,12 @@ class ShoppingCartService
 
             $user = auth()->user();
 
-            $shoppingCart = $this->shoppingCartRepository_->addToCart($data['amount'], $user, $product);
+            $shoppingCartExist = ShoppingCart::where([
+                ['paid_out', '=', false],
+                ['buyer_id', '=', $user->id]
+            ])->first();
+
+            $shoppingCart = $this->shoppingCartRepository_->addToCart($data['amount'], $user, $product, $shoppingCartExist);
 
             if(!$shoppingCart) throw new ErrorException('Internal server error', 500);
 

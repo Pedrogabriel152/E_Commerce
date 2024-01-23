@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ShoppingCart extends Model
+class OrderHistory extends Model
 {
     use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -15,16 +16,11 @@ class ShoppingCart extends Model
      */
     protected $fillable = [
         'buyer_id',
-        'total',
+        'amount',
         'paid_out',
     ];
 
     public function buyer(){
-        return $this->belongsTo(User::class, 'buyer_id', 'id');
+        return $this->hasOne(User::class, 'id', 'buyer_id');
     }
-
-    public function products(){
-        return $this->hasMany(ShoppingCartProducts::class);
-    }
-
 }

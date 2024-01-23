@@ -17,6 +17,7 @@ class ShoppingCartProducts extends Model
     protected $fillable = [
         'product_id',
         'shopping_cart',
+        'amount'
     ];
 
     public function product(){
