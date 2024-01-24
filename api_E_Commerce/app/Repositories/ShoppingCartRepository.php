@@ -44,11 +44,10 @@ class ShoppingCartRepository
         });
     }
 
-    public function completePurchase(ShoppingCart $shoppingCart) {
+    public function completePurchase(ShoppingCart &$shoppingCart) {
         return DB::transaction(function () use ($shoppingCart) {
             $shoppingCart->paid_out = true;
             $shoppingCart->save();
-            return $shoppingCart;
         });
     }
 }

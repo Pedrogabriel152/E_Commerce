@@ -18,9 +18,10 @@ extend type Query @guard {
         id: ID! @eq @rules(apply: ["int"])
     ): ShoppingCart @field(resolver: "App\\GraphQL\\Queries\\ShoppingCartQuery@getShoppingaCart")
 
-    # products(where: _ @whereConditions(columns: ["product", "active"]),
-    #     orderBy: _ @orderBy(columns: ["created_at"])
-    # ): [Product]! @paginate(defaultCount: 10)
+    orderHistory(
+        where: _ @whereConditions(columns: ["buyer_id"]),
+        orderBy: _ @orderBy(columns: ["created_at"])
+    ): [ShoppingCart]! @paginate(defaultCount: 10)
 }
 
 extend type Mutation @guard {

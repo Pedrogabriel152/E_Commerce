@@ -4,7 +4,6 @@ namespace App\Services;
 
 use ErrorException;
 use App\Models\Product;
-use App\Models\OrderHistory;
 use App\Models\ShoppingCart;
 use App\Repositories\ShoppingCartRepository;
 
@@ -74,7 +73,7 @@ class ShoppingCartService
             return [
                 'message' => 'purchase completed',
                 'code' => 200,
-                'shoppingChart' => $shoppingCart
+                'shoppingCart' => $shoppingCart
             ];
 
         } catch (\Throwable $th) {
