@@ -17,6 +17,7 @@ class ShoppingCart extends Model
         'buyer_id',
         'total',
         'paid_out',
+        'quantity_products',
     ];
 
     public function buyer(){

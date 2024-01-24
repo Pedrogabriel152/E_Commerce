@@ -1,0 +1,30 @@
+type ShoppingCart {
+    id: ID!
+    buyer_id: Int!
+    total: Float!
+    paid_out: Boolean!
+    buyer: User! @belongsTo
+    quantity_products: Int!
+}
+
+type ResponseShoppingCart implements Response {
+    code: Int!
+    message: String!
+    shoppingCart: ShoppingCart
+}
+
+extend type Query @guard {
+    shoppingCart(
+        id: ID! @eq @rules(apply: ["int"])
+    ): ShoppingCart @field(resolver: "App\\GraphQL\\Queries\\ShoppingCartQuery@getShoppingaCart")
+
+    # products(where: _ @whereConditions(columns: ["product", "active"]),
+    #     orderBy: _ @orderBy(columns: ["created_at"])
+    # ): [Product]! @paginate(defaultCount: 10)
+}
+
+extend type Mutation @guard {
+    completePurchase(
+        id: ID! @eq @rules(apply: ["int"])
+    ): ResponseShoppingCart! @field(resolver: "App\\GraphQL\\Mutations\\ShoppingCartMutation@completePurchase")
+}

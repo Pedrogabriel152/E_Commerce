@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\OrderHistory;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\ShoppingCart;
@@ -22,13 +21,14 @@ class ShoppingCartRepository
             if(!$shoppingCartExist) {
                 $shoppingCart = ShoppingCart::create([
                     'buyer_id' => $user->id,
-                    'total' => $product->price * $amount
+                    'total' => $product->price * $amount,
+                    'quantity_products' => $amount
                 ]);
             } else {
                 $shoppingCartExist->total += $product->price * $amount;
+                $shoppingCartExist->quantity_products += $amount;
                 $shoppingCartExist->save();
-            }
-            
+            }           
 
             ShoppingCartProducts::create([
                 'product_id' => $product->id,
@@ -36,10 +36,19 @@ class ShoppingCartRepository
                 'amount' => $amount
             ]);
 
+
             $product->amount -= $amount;
             $product->save();
 
             return $shoppingCart? $shoppingCart : $shoppingCartExist;
+        });
+    }
+
+    public function completePurchase(ShoppingCart $shoppingCart) {
+        return DB::transaction(function () use ($shoppingCart) {
+            $shoppingCart->paid_out = true;
+            $shoppingCart->save();
+            return $shoppingCart;
         });
     }
 }

@@ -6,7 +6,7 @@ use App\Services\PermissionService;
 
 class PermissionMutation
 {
-    private $permissionService_;
+    private PermissionService $permissionService_;
 
     public function __construct()
     {
