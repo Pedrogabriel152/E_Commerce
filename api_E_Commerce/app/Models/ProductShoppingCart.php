@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ShoppingCartProducts extends Model
+class ProductShoppingCart extends Model
 {
     use HasFactory;
+
+    protected $table = 'product_shopping_cart';
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +18,7 @@ class ShoppingCartProducts extends Model
      */
     protected $fillable = [
         'product_id',
-        'shopping_cart',
+        'shopping_cart_id',
         'amount'
     ];
 

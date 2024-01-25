@@ -17,7 +17,7 @@ class ShoppingCartService
     }
 
     public function addToCart(array $data) {
-        try {
+        // try {
             $product = Product::whereActive(true)->find($data['id']);
             
             if(!$product) throw new ErrorException('product not found', 404);
@@ -40,12 +40,43 @@ class ShoppingCartService
                 'code' => 200
             ];
 
-        } catch (\Throwable $th) {
-            return [
-                'message' => $th->getMessage(),
-                'code' => $th->getCode()
-            ];
-        }
+        // } catch (\Throwable $th) {
+        //     return [
+        //         'message' => $th->getMessage(),
+        //         'code' => $th->getCode()
+        //     ];
+        // }
+    }
+
+    public function removeToCart(array $data) {
+        // try {
+            $user = auth()->user();
+
+            $shoppingCartExist = ShoppingCart::where([
+                ['paid_out', '=', false],
+                ['buyer_id', '=', $user->id]
+            ])->first();
+            
+            if(!$shoppingCartExist) throw new ErrorException('Shopping Cart not found', 404);
+            
+            $products = $shoppingCartExist->products;
+            dd($products);
+
+            // $shoppingCart = $this->shoppingCartRepository_->addToCart($data['amount'], $user, $product, $shoppingCartExist);
+
+            // if(!$shoppingCart) throw new ErrorException('Internal server error', 500);
+
+            // return [
+            //     'message' => 'Product added to cart',
+            //     'code' => 200
+            // ];
+
+        // } catch (\Throwable $th) {
+        //     return [
+        //         'message' => $th->getMessage(),
+        //         'code' => $th->getCode()
+        //     ];
+        // }
     }
 
     public function getShoppingaCartByID(int $id) {

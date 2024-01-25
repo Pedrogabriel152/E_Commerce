@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::rename('shopping_cart', 'shopping_carts');
+        
     }
 
     /**

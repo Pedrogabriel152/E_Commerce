@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use App\Models\Product;
+use App\Models\ProductShoppingCart;
 use App\Models\ShoppingCart;
 use Illuminate\Support\Facades\DB;
 use App\Models\ShoppingCartProducts;
@@ -30,9 +31,9 @@ class ShoppingCartRepository
                 $shoppingCartExist->save();
             }           
 
-            ShoppingCartProducts::create([
+            ProductShoppingCart::create([
                 'product_id' => $product->id,
-                'shopping_cart' => $shoppingCart? $shoppingCart->id : $shoppingCartExist->id,
+                'shopping_cart_id' => $shoppingCart? $shoppingCart->id : $shoppingCartExist->id,
                 'amount' => $amount
             ]);
 
