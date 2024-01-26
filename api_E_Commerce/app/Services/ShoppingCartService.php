@@ -17,7 +17,7 @@ class ShoppingCartService
     }
 
     public function addToCart(array $data) {
-        // try {
+        try {
             $product = Product::whereActive(true)->find($data['id']);
             
             if(!$product) throw new ErrorException('product not found', 404);
@@ -40,12 +40,12 @@ class ShoppingCartService
                 'code' => 200
             ];
 
-        // } catch (\Throwable $th) {
-        //     return [
-        //         'message' => $th->getMessage(),
-        //         'code' => $th->getCode()
-        //     ];
-        // }
+        } catch (\Throwable $th) {
+            return [
+                'message' => $th->getMessage(),
+                'code' => $th->getCode()
+            ];
+        }
     }
 
     public function removeToCart(array $data) {
@@ -54,13 +54,13 @@ class ShoppingCartService
 
             $shoppingCartExist = ShoppingCart::where([
                 ['paid_out', '=', false],
-                ['buyer_id', '=', $user->id]
+                ['buyer_id', '=', $user->id],
+                ['id', '=', $data['idCart']]
             ])->first();
             
             if(!$shoppingCartExist) throw new ErrorException('Shopping Cart not found', 404);
-            
-            $products = $shoppingCartExist->products;
-            dd($products);
+
+            $this->shoppingCartRepository_->removeToCart($shoppingCartExist, intval($data['idProduct']), $user);
 
             // $shoppingCart = $this->shoppingCartRepository_->addToCart($data['amount'], $user, $product, $shoppingCartExist);
 

@@ -45,6 +45,27 @@ class ShoppingCartRepository
         });
     }
 
+    public function removeToCart(ShoppingCart $shoppingCart, int $idProduct, User $user){
+        return DB::transaction(function () use ($shoppingCart, $idProduct, $user) {
+            
+            $shoppingCart->total -= $product->price;
+            $shoppingCart->quantity_products += $amount;
+            $shoppingCart->save();          
+
+            ProductShoppingCart::create([
+                'product_id' => $product->id,
+                'shopping_cart_id' => $shoppingCart? $shoppingCart->id : $shoppingCart->id,
+                'amount' => $amount
+            ]);
+
+
+            $product->amount -= $amount;
+            $product->save();
+
+            return $shoppingCart? $shoppingCart : $shoppingCartExist;
+        });
+    }
+
     public function completePurchase(ShoppingCart &$shoppingCart) {
         return DB::transaction(function () use ($shoppingCart) {
             $shoppingCart->paid_out = true;
