@@ -7,7 +7,6 @@ use App\Models\Product;
 use App\Models\ProductShoppingCart;
 use App\Models\ShoppingCart;
 use Illuminate\Support\Facades\DB;
-use App\Models\ShoppingCartProducts;
 
 class ShoppingCartRepository 
 {
