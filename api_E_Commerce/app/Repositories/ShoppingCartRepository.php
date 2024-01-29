@@ -54,7 +54,7 @@ class ShoppingCartRepository
 
             $shoppingCart->total -= $product->price;
             $shoppingCart->quantity_products -= 1;
-            $shoppingCart->save();   
+            $shoppingCart->save();
 
             if($productShoppingCart->amount > 1){
                 $productShoppingCart->amount -= 1;

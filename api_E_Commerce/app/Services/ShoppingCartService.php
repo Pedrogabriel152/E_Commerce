@@ -80,7 +80,7 @@ class ShoppingCartService
             $this->shoppingCartRepository_->removeToCart($shoppingCartExist, $product, $productShoppingCart);
 
             return [
-                'message' => 'Product added to cart',
+                'message' => 'Product removed to cart',
                 'code' => 200,
                 'products' => $shoppingCartExist->products
             ];
