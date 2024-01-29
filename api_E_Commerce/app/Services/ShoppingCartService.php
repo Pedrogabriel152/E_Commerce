@@ -5,6 +5,7 @@ namespace App\Services;
 use ErrorException;
 use App\Models\Product;
 use App\Models\ShoppingCart;
+use App\Models\ProductShoppingCart;
 use App\Repositories\ShoppingCartRepository;
 
 class ShoppingCartService
@@ -49,7 +50,7 @@ class ShoppingCartService
     }
 
     public function removeToCart(array $data) {
-        // try {
+        try {
             $user = auth()->user();
 
             $shoppingCartExist = ShoppingCart::where([
@@ -60,23 +61,32 @@ class ShoppingCartService
             
             if(!$shoppingCartExist) throw new ErrorException('Shopping Cart not found', 404);
 
-            $this->shoppingCartRepository_->removeToCart($shoppingCartExist, intval($data['idProduct']), $user);
+            $product = Product::find($data['idProduct']);
 
-            // $shoppingCart = $this->shoppingCartRepository_->addToCart($data['amount'], $user, $product, $shoppingCartExist);
+            if(!$product)throw new ErrorException('Product not found', 404);
 
-            // if(!$shoppingCart) throw new ErrorException('Internal server error', 500);
+            $productShoppingCart = ProductShoppingCart::where([
+                ['shopping_cart_id', '=', $shoppingCartExist->id],
+                ['product_id', '=', $product->id]
+            ])->first();
 
-            // return [
-            //     'message' => 'Product added to cart',
-            //     'code' => 200
-            // ];
+            if(!$productShoppingCart) throw new ErrorException('The product is not in the shopping cart', 404);
+                
+            $this->shoppingCartRepository_->removeToCart($shoppingCartExist, $product, $productShoppingCart);
 
-        // } catch (\Throwable $th) {
-        //     return [
-        //         'message' => $th->getMessage(),
-        //         'code' => $th->getCode()
-        //     ];
-        // }
+            return [
+                'message' => 'Product added to cart',
+                'code' => 200,
+                'products' => $shoppingCartExist->products
+            ];
+
+        } catch (\Throwable $th) {
+            return [
+                'message' => $th->getMessage(),
+                'code' => $th->getCode(),
+                'products' => []
+            ];
+        }
     }
 
     public function getShoppingaCartByID(int $id) {

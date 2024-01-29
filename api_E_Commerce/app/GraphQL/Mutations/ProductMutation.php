@@ -46,7 +46,7 @@ class ProductMutation
 
     public function removeToCart($_, array $args) 
     {
-        $$response = $this->shoppingCartService_->removeToCart($args);
+        $response = $this->shoppingCartService_->removeToCart($args);
         return $response;
     }
 }

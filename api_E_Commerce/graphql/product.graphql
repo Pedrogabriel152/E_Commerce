@@ -15,6 +15,12 @@ type ResponseProduct implements Response {
     product: Product
 }
 
+type ResponseProducts implements Response {
+    code: Int!
+    message: String!
+    products: [Product]!
+}
+
 input ProductInput {
     product: String!
     amount: Int!
@@ -38,5 +44,5 @@ extend type Mutation @guard {
     updateProduct(id: ID!, product: ProductInput!): ResponseProduct! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@update")
     deleteProduct(id: ID!): ResponseProduct! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@delete")
     addToCart(id: ID!, amount: Int!) : ResponseProduct! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@addToCart")
-    removeToCart(idCart: ID!, idProduct: Int!) : [Product]! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@removeToCart")
+    removeToCart(idCart: ID!, idProduct: Int!) : ResponseProducts! @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@removeToCart")
 }
