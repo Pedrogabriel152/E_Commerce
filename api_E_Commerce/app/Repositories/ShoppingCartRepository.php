@@ -16,8 +16,8 @@ class ShoppingCartRepository
         
     }
 
-    public function addToCart(int $amount, User $user, Product $product, ShoppingCart $shoppingCartExist = null){
-        return DB::transaction(function () use ($amount, $product, $user, $shoppingCartExist) {
+    public function addToCart(int $amount, User &$user, Product &$product, ShoppingCart &$shoppingCartExist = null, ProductShoppingCart &$productShoppingCart = null){
+        return DB::transaction(function () use ($amount, $product, $user, $shoppingCartExist, $productShoppingCart) {
             $shoppingCart = null;
             if(!$shoppingCartExist) {
                 $shoppingCart = ShoppingCart::create([
@@ -31,12 +31,16 @@ class ShoppingCartRepository
                 $shoppingCartExist->save();
             }           
 
-            ProductShoppingCart::create([
-                'product_id' => $product->id,
-                'shopping_cart_id' => $shoppingCart? $shoppingCart->id : $shoppingCartExist->id,
-                'amount' => $amount
-            ]);
-
+            if(!$productShoppingCart){
+                ProductShoppingCart::create([
+                    'product_id' => $product->id,
+                    'shopping_cart_id' => $shoppingCart? $shoppingCart->id : $shoppingCartExist->id,
+                    'amount' => $amount
+                ]);
+            }else{
+                $productShoppingCart->amount += $amount;
+                $productShoppingCart->save();
+            }
 
             $product->amount -= $amount;
             $product->save();

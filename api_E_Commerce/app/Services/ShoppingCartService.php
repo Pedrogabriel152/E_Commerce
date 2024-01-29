@@ -32,7 +32,12 @@ class ShoppingCartService
                 ['buyer_id', '=', $user->id]
             ])->first();
 
-            $shoppingCart = $this->shoppingCartRepository_->addToCart($data['amount'], $user, $product, $shoppingCartExist);
+            $productShoppingCart = ProductShoppingCart::where([
+                ['product_id', '=', $product->id],
+                ['shopping_cart_id', '=', $shoppingCartExist->id]
+            ])->first();
+
+            $shoppingCart = $this->shoppingCartRepository_->addToCart($data['amount'], $user, $product, $shoppingCartExist, $productShoppingCart);
 
             if(!$shoppingCart) throw new ErrorException('Internal server error', 500);
 
