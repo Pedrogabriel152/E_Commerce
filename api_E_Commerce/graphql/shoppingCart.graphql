@@ -5,6 +5,7 @@ type ShoppingCart {
     paid_out: Boolean!
     buyer: User! @belongsTo
     quantity_products: Int!
+    products: [Product]! @belongsTo
 }
 
 type ResponseShoppingCart implements Response {
